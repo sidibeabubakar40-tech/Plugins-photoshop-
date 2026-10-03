@@ -47,12 +47,12 @@ Aucune clé API n'est enregistrée dans le dépôt. Le réseau UXP est explicite
 3. Lancer le plugin dans Photoshop.
 4. Pour Firefly Upscale, utiliser une version de Photoshop compatible.
 
-## V5 prévue
+## V5 — fonctionnalités ajoutées
 
 - suppression d'arrière-plan ;
 - génération/retouche IA d'images ;
-- bibliothèque de workflows ;
-- historique des opérations ;
-- presets personnalisés persistants ;
+- historique local des opérations ;
+- batch sur les documents ouverts ;
+- interface V5 pour préparer les intégrations IA avancées ;
 - traitement de plusieurs documents avec export automatique ;
 - interface de connexion IA sécurisée.
