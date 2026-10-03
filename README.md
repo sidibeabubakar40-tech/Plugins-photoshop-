@@ -1,25 +1,37 @@
 # SIDIBE Photoshop Toolkit
 
-Plugin UXP pour Adobe Photoshop — V2.
+Plugin Photoshop UXP de productivité développé pour SIDIBE STUDIO.
 
-## V2
-- Gestion du document et du calque actif
-- Création, duplication et renommage
-- Affichage / masquage
-- Retourner horizontalement ou verticalement
-- Presets Clean, Soft, Overlay et Fade
-- Interface sombre avec identité SIDIBE Studio
+## V3 — Creative Automation
 
-## Installation développement
-1. Installer Photoshop et Adobe UXP Developer Tool.
-2. Ajouter manifest.json dans UXP Developer Tool.
-3. Charger le plugin.
-4. Ouvrir Photoshop puis Plugins → SIDIBE Photoshop Toolkit.
+La V3 ajoute :
+- interface SIDIBE STUDIO modernisée ;
+- export PNG et JPEG ;
+- presets de calque ;
+- workflows rapides ;
+- réglages locaux pour un futur fournisseur IA ;
+- base d’architecture pour automatisations et fonctions IA ;
+- aucune clé API secrète stockée dans le dépôt.
 
-## Architecture
-manifest.json · index.html · index.js · styles.css · presets.json · README.md
+### Workflows inclus
+- Nettoyage rapide
+- Préparation réseaux
+- Présentation premium
 
-## V3 prévue
-IA et fournisseur configurable · suppression d'arrière-plan · upscale · export PNG/JPEG/WebP · batch processing · bibliothèque de workflows · historique · paramètres personnalisables.
+## Installation
+1. Installer Adobe UXP Developer Tool.
+2. Ouvrir le projet dans UXP Developer Tool.
+3. Charger le dossier du plugin.
+4. Lancer le plugin dans Photoshop.
 
-Aucune clé API n'est embarquée dans le dépôt.
+## Sécurité IA
+Les clés API ne doivent jamais être placées dans GitHub ni dans le code source. La connexion à un fournisseur IA sera ajoutée séparément avec une gestion sécurisée des secrets.
+
+## Prochaine étape V4
+- suppression d’arrière-plan assistée par IA ;
+- génération et retouche assistées ;
+- upscale ;
+- traitement par lots ;
+- bibliothèque de workflows ;
+- historique et annulation avancés ;
+- connexion sécurisée aux fournisseurs IA.
