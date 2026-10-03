@@ -21,6 +21,15 @@ function send(res,status,payload){
   res.end(body);
 }
 
+async function adobeGet(path){
+  const token=await getToken();
+  const r=await fetch("https://image.adobe.io"+path,{method:"GET",headers:{"Authorization":"Bearer "+token,"x-api-key":process.env.ADOBE_CLIENT_ID}});
+  const text=await r.text();
+  let data; try{data=JSON.parse(text);}catch{data={raw:text};}
+  if(!r.ok) throw new Error("Adobe API HTTP "+r.status);
+  return data;
+}
+
 async function adobePost(path,payload){
   const token=await getToken();
   const r=await fetch("https://image.adobe.io"+path,{method:"POST",headers:{"Authorization":"Bearer "+token,"x-api-key":process.env.ADOBE_CLIENT_ID,"Content-Type":"application/json"},body:JSON.stringify(payload)});
@@ -32,7 +41,15 @@ async function adobePost(path,payload){
 
 const server=http.createServer(async(req,res)=>{
   if(req.method==="OPTIONS"){res.writeHead(204);return res.end();}
-  if(req.method==="GET"&&req.url==="/health") return send(res,200,{ok:true,service:"SIDIBE Photoshop Backend",version:"1.0.0"});
+  if(req.method==="GET"&&req.url==="/health") return send(res,200,{ok:true,service:"SIDIBE Photoshop Backend",version:"1.1.0"});
+  if(req.method==="GET"&&req.url.startsWith("/v2/status/")){
+    try{
+      const jobId=decodeURIComponent(req.url.slice("/v2/status/".length)).split("?")[0];
+      if(!jobId) throw new Error("jobId is required");
+      const result=await adobeGet("/v2/status/"+encodeURIComponent(jobId));
+      return send(res,200,result);
+    }catch(e){return send(res,502,{ok:false,error:e.message});}
+  }
   if(req.method==="POST"&&req.url==="/v2/remove-background"){
     try{
       let raw=""; for await(const chunk of req) raw+=chunk;
