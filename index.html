@@ -1,40 +1,12 @@
 <!doctype html>
-<html>
-<head>
-  <meta charset="UTF-8">
-  <title>SIDIBE Photoshop Toolkit</title>
-  <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-  <sp-heading size="M">SIDIBE Photoshop Toolkit</sp-heading>
-  <div class="subtitle">Outils rapides pour Photoshop</div>
-
-  <section class="card">
-    <div class="label">DOCUMENT ACTIF</div>
-    <div id="docName" class="value">Aucun document</div>
-    <div id="docMeta" class="muted">Ouvre un document Photoshop.</div>
-  </section>
-
-  <section class="card">
-    <div class="label">CALQUE ACTIF</div>
-    <div id="layerName" class="value">Aucun calque</div>
-    <div id="layerMeta" class="muted">Sélectionne un calque.</div>
-  </section>
-
-  <div class="grid">
-    <button id="refresh">Actualiser</button>
-    <button id="newLayer">Nouveau calque</button>
-    <button id="duplicate">Dupliquer</button>
-    <button id="toggle">Afficher / masquer</button>
-    <button id="rename">Renommer</button>
-    <button id="flipH">Retourner H</button>
-  </div>
-
-  <section class="card">
-    <div class="label">ÉTAT</div>
-    <div id="status" class="muted">Prêt.</div>
-  </section>
-
-  <script src="index.js"></script>
-</body>
-</html>
+<html><head><meta charset="UTF-8"><title>SIDIBE Photoshop Toolkit</title><link rel="stylesheet" href="styles.css"></head><body>
+<header class="hero"><div class="brand-mark">S</div><div><div class="eyebrow">SIDIBE STUDIO</div><sp-heading size="M">Photoshop Toolkit</sp-heading><div class="subtitle">V2 · Productivité créative</div></div></header>
+<section class="card document"><div class="section-title">DOCUMENT</div><div id="docName" class="value">Aucun document</div><div id="docMeta" class="muted">Ouvre un document Photoshop.</div></section>
+<section class="card"><div class="section-title">CALQUE ACTIF</div><div id="layerName" class="value">Aucun calque</div><div id="layerMeta" class="muted">Sélectionne un calque.</div></section>
+<section><div class="section-title">ACTIONS RAPIDES</div><div class="grid">
+<button data-action="newLayer">＋ Nouveau</button><button data-action="duplicate">Dupliquer</button><button data-action="rename">Renommer</button><button data-action="toggle">Visible / masqué</button><button data-action="flipH">Retourner H</button><button data-action="flipV">Retourner V</button>
+</div></section>
+<section><div class="section-title">PRESETS DE CALQUE</div><div class="preset-grid"><button data-preset="clean">Clean · 100%</button><button data-preset="soft">Soft · 70%</button><button data-preset="overlay">Overlay · 85%</button><button data-preset="fade">Fade · 40%</button></div></section>
+<section class="card workflow"><div class="section-title">WORKFLOW</div><div class="workflow-row"><span class="dot"></span><span>Document</span><span class="arrow">→</span><span>Calque</span><span class="arrow">→</span><span>Preset</span></div><div class="muted">La V2 prépare les briques pour les automatisations avancées et les fonctions IA.</div></section>
+<section class="card status-card"><div class="section-title">ÉTAT</div><div id="status" class="muted">Prêt.</div></section>
+<script src="index.js"></script></body></html>
