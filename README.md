@@ -69,3 +69,9 @@ Aucune clé API n'est enregistrée dans le dépôt. Le réseau UXP est explicite
 - interface V5 pour préparer les intégrations IA avancées ;
 - traitement de plusieurs documents avec export automatique ;
 - interface de connexion IA sécurisée.
+
+## V6.1 — suivi des jobs Adobe
+
+Le backend expose `GET /v2/status/:jobId` et relaie le statut Photoshop API v2. Le plugin interroge cet endpoint jusqu'à la fin du job Remove Background, puis affiche l'URL de résultat fournie par Adobe lorsqu'elle est disponible.
+
+Le flux nécessite toujours une URL d'image accessible par Adobe (URL signée, stockage objet, etc.). L'envoi automatique d'un fichier local Photoshop vers un stockage public n'est pas encore inclus.
