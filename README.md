@@ -75,3 +75,10 @@ Aucune clé API n'est enregistrée dans le dépôt. Le réseau UXP est explicite
 Le backend expose `GET /v2/status/:jobId` et relaie le statut Photoshop API v2. Le plugin interroge cet endpoint jusqu'à la fin du job Remove Background, puis affiche l'URL de résultat fournie par Adobe lorsqu'elle est disponible.
 
 Le flux nécessite toujours une URL d'image accessible par Adobe (URL signée, stockage objet, etc.). L'envoi automatique d'un fichier local Photoshop vers un stockage public n'est pas encore inclus.
+
+
+## V6.2 — flux document actif
+
+Le plugin peut maintenant exporter une copie PNG temporaire du document actif, l'envoyer au backend `/v2/upload-image`, renseigner automatiquement l'URL temporaire puis lancer Remove Background. Lorsque Adobe renvoie le résultat, le plugin télécharge le PNG et l'ouvre dans Photoshop.
+
+Le backend doit être déployé sur une URL publique HTTPS via `PUBLIC_BASE_URL` pour qu'Adobe puisse accéder à l'image temporaire. Adobe documente l'utilisation d'URL accessibles pour les entrées du Photoshop API v2. citeturn5search1turn5search2
