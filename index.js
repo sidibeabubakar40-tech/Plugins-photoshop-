@@ -51,3 +51,18 @@ $("clearHistory")?.addEventListener("click",()=>{localStorage.removeItem(HISTORY
 function renderCustomPresets(){const box=$("customPresetList");if(!box)return;let a=[];try{a=JSON.parse(localStorage.getItem(CUSTOM_PRESETS_KEY)||"[]")}catch(e){}box.innerHTML=a.length?a.map(function(p){return "<button data-custom=\""+p.id+"\">"+p.name+" · "+p.opacity+"%</button>"}).join(""):"<div class=\"muted\">Aucun preset personnalisé.</div>";box.querySelectorAll("[data-custom]").forEach(function(b){b.addEventListener("click",function(){const p=a.find(function(x){return x.id===b.dataset.custom});if(p)modal("Preset "+p.name,async()=>{const l=getLayer();if(!l)throw new Error("Aucun calque actif.");l.opacity=p.opacity;l.name=p.name;});});});}
 $("saveCustomPreset")?.addEventListener("click",()=>{const name=$("customPresetName").value.trim();const opacity=Math.max(0,Math.min(100,Number($("customPresetOpacity").value)||100));if(!name)return status("Donne un nom au preset.");let a=JSON.parse(localStorage.getItem(CUSTOM_PRESETS_KEY)||"[]");a.push({id:"p"+Date.now(),name:name,opacity:opacity});localStorage.setItem(CUSTOM_PRESETS_KEY,JSON.stringify(a.slice(-20)));$("customPresetName").value="";renderCustomPresets();status("Preset enregistré.");});
 renderCustomPresets();renderHistory();
+
+$("cloudRemoveBg")?.addEventListener("click",async()=>{
+  const endpoint=$("cloudEndpoint").value.trim().replace(/\/$/,"");
+  const imageUrl=$("cloudImageUrl").value.trim();
+  if(!endpoint)return $("cloudStatus").textContent="Configure l’URL du backend.";
+  if(!imageUrl)return $("cloudStatus").textContent="Ajoute une URL d’image lisible par Adobe.";
+  try{
+    $("cloudStatus").textContent="Traitement Adobe en cours…";
+    const r=await fetch(endpoint+"/v2/remove-background",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({imageUrl:imageUrl,mode:"cutout",trim:true})});
+    const data=await r.json();
+    if(!r.ok)throw new Error(data.error||"Erreur backend");
+    $("cloudStatus").textContent="Job Adobe créé. Le backend a reçu la demande.";
+    addHistory("Adobe AI · Remove Background");
+  }catch(e){$("cloudStatus").textContent="Erreur : "+(e.message||"connexion impossible");}
+});
