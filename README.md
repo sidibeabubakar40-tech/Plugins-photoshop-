@@ -1,5 +1,18 @@
 # SIDIBE Photoshop Toolkit
 
+## V6 — Adobe AI Backend
+
+La V6 ajoute un backend serveur séparé pour intégrer Photoshop API v2 sans exposer les identifiants Adobe dans le plugin.
+
+- Remove Background via `/v2/remove-background` ;
+- authentification OAuth Server-to-Server côté backend ;
+- interface plugin pour renseigner l'URL du backend et une URL d'image lisible par Adobe ;
+- dossier `backend/` prêt à déployer ;
+- aucun secret Adobe dans le dépôt.
+
+Adobe recommande Photoshop API v2 pour les nouvelles intégrations et documente Remove Background, Generative Fill et Generative Expand. citeturn1search3turn0search0
+
+
 Plugin UXP Photoshop de productivité et d'automatisation SIDIBE STUDIO.
 
 ## V4 — AI & Creative Automation
