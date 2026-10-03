@@ -1,36 +1,25 @@
 # SIDIBE Photoshop Toolkit
 
-Plugin UXP pour Adobe Photoshop.
+Plugin UXP pour Adobe Photoshop — V2.
 
-## V1
+## V2
+- Gestion du document et du calque actif
+- Création, duplication et renommage
+- Affichage / masquage
+- Retourner horizontalement ou verticalement
+- Presets Clean, Soft, Overlay et Fade
+- Interface sombre avec identité SIDIBE Studio
 
-- Affichage du document actif
-- Affichage du calque actif
-- Création d'un calque
-- Duplication du calque actif
-- Affichage / masquage du calque
-- Renommage du calque
-- Retourner horizontalement
-- Interface sombre avec accent doré
-
-## Installation pour développement
-
-1. Installer Photoshop et **Adobe UXP Developer Tool**.
-2. Ouvrir UXP Developer Tool.
-3. Ajouter le fichier `manifest.json` du dépôt.
-4. Charger le plugin.
-5. Dans Photoshop : **Plugins → SIDIBE Photoshop Toolkit**.
-
-Le plugin utilise UXP Manifest v5 et cible Photoshop 23.3+.
+## Installation développement
+1. Installer Photoshop et Adobe UXP Developer Tool.
+2. Ajouter manifest.json dans UXP Developer Tool.
+3. Charger le plugin.
+4. Ouvrir Photoshop puis Plugins → SIDIBE Photoshop Toolkit.
 
 ## Architecture
+manifest.json · index.html · index.js · styles.css · presets.json · README.md
 
-```
-manifest.json
-index.html
-index.js
-styles.css
-README.md
-```
+## V3 prévue
+IA et fournisseur configurable · suppression d'arrière-plan · upscale · export PNG/JPEG/WebP · batch processing · bibliothèque de workflows · historique · paramètres personnalisables.
 
-La V1 est volontairement légère afin de fournir une base stable avant d'ajouter les fonctions avancées : IA, presets, export, automatisations et connexions API.
+Aucune clé API n'est embarquée dans le dépôt.
