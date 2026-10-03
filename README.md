@@ -1,37 +1,58 @@
 # SIDIBE Photoshop Toolkit
 
-Plugin Photoshop UXP de productivité développé pour SIDIBE STUDIO.
+Plugin UXP Photoshop de productivité et d'automatisation SIDIBE STUDIO.
 
-## V3 — Creative Automation
+## V4 — AI & Creative Automation
 
-La V3 ajoute :
-- interface SIDIBE STUDIO modernisée ;
-- export PNG et JPEG ;
-- presets de calque ;
-- workflows rapides ;
-- réglages locaux pour un futur fournisseur IA ;
-- base d’architecture pour automatisations et fonctions IA ;
-- aucune clé API secrète stockée dans le dépôt.
+Ajouts :
+- export PNG/JPEG ;
+- workflows et presets ;
+- traitement batch de calques ;
+- upscale 2× avec Deep Upscale ;
+- Generative Upscale Firefly 2× sur Photoshop compatible ;
+- rognage de transparence ;
+- rotation ;
+- assistant IA configurable via endpoint HTTPS ;
+- exécution d'actions Photoshop renvoyées par un endpoint IA ;
+- clé API saisie en session uniquement et jamais stockée dans GitHub.
 
-### Workflows inclus
-- Nettoyage rapide
-- Préparation réseaux
-- Présentation premium
+Adobe documente Generative Upscale à partir de Photoshop 27.2. La V4 utilise donc Photoshop 27.2+ pour cette fonction.
+
+## Contrat de réponse IA
+
+Un endpoint peut retourner :
+```json
+{
+  "actions": [
+    {"type":"newLayer","name":"SIDIBE — IA"},
+    {"type":"rename","name":"Visuel final"},
+    {"type":"opacity","value":85},
+    {"type":"visibility","value":true},
+    {"type":"flipH"},
+    {"type":"flipV"}
+  ]
+}
+```
+
+Les actions inconnues sont ignorées.
+
+## Sécurité
+
+Aucune clé API n'est enregistrée dans le dépôt. Le réseau UXP est explicitement déclaré dans le manifeste pour permettre la connexion à l'endpoint configuré. Utilise uniquement un endpoint HTTPS que tu contrôles ou auquel tu fais confiance.
 
 ## Installation
-1. Installer Adobe UXP Developer Tool.
-2. Ouvrir le projet dans UXP Developer Tool.
-3. Charger le dossier du plugin.
-4. Lancer le plugin dans Photoshop.
 
-## Sécurité IA
-Les clés API ne doivent jamais être placées dans GitHub ni dans le code source. La connexion à un fournisseur IA sera ajoutée séparément avec une gestion sécurisée des secrets.
+1. Installer Photoshop récent et Adobe UXP Developer Tool.
+2. Charger ce dossier dans UXP Developer Tool.
+3. Lancer le plugin dans Photoshop.
+4. Pour Firefly Upscale, utiliser une version de Photoshop compatible.
 
-## Prochaine étape V4
-- suppression d’arrière-plan assistée par IA ;
-- génération et retouche assistées ;
-- upscale ;
-- traitement par lots ;
+## V5 prévue
+
+- suppression d'arrière-plan ;
+- génération/retouche IA d'images ;
 - bibliothèque de workflows ;
-- historique et annulation avancés ;
-- connexion sécurisée aux fournisseurs IA.
+- historique des opérations ;
+- presets personnalisés persistants ;
+- traitement de plusieurs documents avec export automatique ;
+- interface de connexion IA sécurisée.
