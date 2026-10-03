@@ -19,3 +19,12 @@ Le endpoint Remove Background reçoit une URL d'image accessible par Adobe. Adob
 
 ## Sécurité
 Les identifiants Adobe restent côté serveur. Ne jamais les placer dans index.js, manifest.json ou un dépôt public.
+## V6.2 — upload local temporaire
+
+Le backend expose `POST /v2/upload-image`. Le plugin peut y envoyer un PNG temporaire encodé en base64. Le backend le sert pendant 30 minutes via `PUBLIC_BASE_URL/files/<id>.png`, afin qu'Adobe puisse le lire.
+
+Configuration supplémentaire :
+- `PUBLIC_BASE_URL` : URL HTTPS publique du backend, sans slash final ;
+- `SIDIBE_UPLOAD_DIR` : dossier temporaire, par défaut `/tmp`.
+
+Cette fonction est destinée à un backend privé correctement protégé. Avant une mise en production publique, ajoute une authentification du backend, un contrôle de taille plus strict selon l'hébergement et un stockage temporaire adapté.
