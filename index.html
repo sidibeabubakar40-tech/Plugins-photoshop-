@@ -1,0 +1,40 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>SIDIBE Photoshop Toolkit</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <sp-heading size="M">SIDIBE Photoshop Toolkit</sp-heading>
+  <div class="subtitle">Outils rapides pour Photoshop</div>
+
+  <section class="card">
+    <div class="label">DOCUMENT ACTIF</div>
+    <div id="docName" class="value">Aucun document</div>
+    <div id="docMeta" class="muted">Ouvre un document Photoshop.</div>
+  </section>
+
+  <section class="card">
+    <div class="label">CALQUE ACTIF</div>
+    <div id="layerName" class="value">Aucun calque</div>
+    <div id="layerMeta" class="muted">Sélectionne un calque.</div>
+  </section>
+
+  <div class="grid">
+    <button id="refresh">Actualiser</button>
+    <button id="newLayer">Nouveau calque</button>
+    <button id="duplicate">Dupliquer</button>
+    <button id="toggle">Afficher / masquer</button>
+    <button id="rename">Renommer</button>
+    <button id="flipH">Retourner H</button>
+  </div>
+
+  <section class="card">
+    <div class="label">ÉTAT</div>
+    <div id="status" class="muted">Prêt.</div>
+  </section>
+
+  <script src="index.js"></script>
+</body>
+</html>
