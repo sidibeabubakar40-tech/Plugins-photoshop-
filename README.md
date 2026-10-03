@@ -10,7 +10,7 @@ La V6 ajoute un backend serveur séparé pour intégrer Photoshop API v2 sans ex
 - dossier `backend/` prêt à déployer ;
 - aucun secret Adobe dans le dépôt.
 
-Adobe recommande Photoshop API v2 pour les nouvelles intégrations et documente Remove Background, Generative Fill et Generative Expand. citeturn1search3turn0search0
+Adobe recommande Photoshop API v2 pour les nouvelles intégrations et documente Remove Background, Generative Fill et Generative Expand.
 
 
 Plugin UXP Photoshop de productivité et d'automatisation SIDIBE STUDIO.
