@@ -1,39 +1,14 @@
-<!doctype html>
-<html><head><meta charset="UTF-8"><title>SIDIBE Photoshop Toolkit</title><link rel="stylesheet" href="styles.css"></head><body>
-<header class="hero"><div class="brand-mark">S</div><div><div class="eyebrow">SIDIBE STUDIO</div><sp-heading size="M">Photoshop Toolkit</sp-heading><div class="subtitle">V3 · Creative Automation</div></div></header>
-
+<!doctype html><html><head><meta charset="UTF-8"><title>SIDIBE Photoshop Toolkit</title><link rel="stylesheet" href="styles.css"></head><body>
+<header class="hero"><div class="brand-mark">S</div><div><div class="eyebrow">SIDIBE STUDIO</div><sp-heading size="M">Photoshop Toolkit</sp-heading><div class="subtitle">V4 · AI & Creative Automation</div></div></header>
 <section class="card document"><div class="section-title">DOCUMENT</div><div id="docName" class="value">Aucun document</div><div id="docMeta" class="muted">Ouvre un document Photoshop.</div></section>
 <section class="card"><div class="section-title">CALQUE ACTIF</div><div id="layerName" class="value">Aucun calque</div><div id="layerMeta" class="muted">Sélectionne un calque.</div></section>
-
-<section><div class="section-title">ACTIONS RAPIDES</div><div class="grid">
-<button data-action="newLayer">＋ Nouveau</button><button data-action="duplicate">Dupliquer</button><button data-action="rename">Renommer</button><button data-action="toggle">Visible / masqué</button><button data-action="flipH">Retourner H</button><button data-action="flipV">Retourner V</button>
-</div></section>
-
-<section><div class="section-title">EXPORT RAPIDE</div><div class="grid">
-<button data-export="png">Exporter PNG</button><button data-export="jpg">Exporter JPEG</button>
-</div></section>
-
-<section><div class="section-title">PRESETS</div><div class="preset-grid">
-<button data-preset="clean">Clean · 100%</button><button data-preset="soft">Soft · 70%</button><button data-preset="overlay">Overlay · 85%</button><button data-preset="fade">Fade · 40%</button>
-</div></section>
-
-<section class="card"><div class="section-title">WORKFLOWS</div>
-<div class="workflow-list">
-<button data-workflow="clean">⚡ Nettoyage rapide</button>
-<button data-workflow="social">📱 Préparation réseaux</button>
-<button data-workflow="presentation">✨ Présentation premium</button>
-</div>
-<div class="muted">Chaque workflow enchaîne plusieurs actions sur le document actif.</div></section>
-
-<section class="card"><div class="section-title">ASSISTANT IA</div>
-<div class="ai-row"><input id="aiPrompt" placeholder="Ex. préparer ce visuel pour Instagram"><button id="aiRun">Lancer</button></div>
-<div id="aiStatus" class="muted">IA prête — connecte un fournisseur dans les réglages lorsque tu voudras l'activer.</div>
-</section>
-
-<section class="card"><div class="section-title">RÉGLAGES</div>
-<label>Fournisseur IA</label><select id="aiProvider"><option value="none">Non connecté</option><option value="openai">OpenAI</option><option value="custom">API personnalisée</option></select>
-<label>Endpoint API</label><input id="aiEndpoint" placeholder="https://..."><button id="saveSettings">Enregistrer les réglages</button>
-<div class="muted">Ne mets jamais une clé secrète dans GitHub. La connexion sécurisée sera ajoutée dans une prochaine étape.</div></section>
-
+<section><div class="section-title">ACTIONS RAPIDES</div><div class="grid"><button data-action="newLayer">＋ Nouveau</button><button data-action="duplicate">Dupliquer</button><button data-action="rename">Renommer</button><button data-action="toggle">Visible / masqué</button><button data-action="flipH">Retourner H</button><button data-action="flipV">Retourner V</button></div></section>
+<section><div class="section-title">EXPORT</div><div class="grid"><button data-export="png">Exporter PNG</button><button data-export="jpg">Exporter JPEG</button></div></section>
+<section><div class="section-title">IA PHOTOSHOP</div><div class="grid"><button id="upscale2">Upscale 2×</button><button id="upscaleFirefly">Firefly Upscale 2×</button><button id="trim">Rogner transparence</button><button id="rotate90">Rotation 90°</button></div></section>
+<section><div class="section-title">BATCH</div><div class="grid"><button data-batch="clean">Tous · Clean</button><button data-batch="soft">Tous · Soft</button><button data-batch="fade">Tous · Fade</button></div></section>
+<section><div class="section-title">PRESETS</div><div class="preset-grid"><button data-preset="clean">Clean · 100%</button><button data-preset="soft">Soft · 70%</button><button data-preset="overlay">Overlay · 85%</button><button data-preset="fade">Fade · 40%</button></div></section>
+<section class="card"><div class="section-title">WORKFLOWS</div><div class="workflow-list"><button data-workflow="clean">⚡ Nettoyage rapide</button><button data-workflow="social">📱 Préparation réseaux</button><button data-workflow="presentation">✨ Présentation premium</button></div></section>
+<section class="card"><div class="section-title">ASSISTANT IA</div><input id="aiPrompt" placeholder="Ex. rends ce visuel plus propre"><input id="aiKey" type="password" placeholder="Clé API — non sauvegardée"><button id="aiRun">Lancer l’assistant</button><div id="aiStatus" class="muted">L’IA peut envoyer le prompt et les métadonnées du document à ton endpoint.</div></section>
+<section class="card"><div class="section-title">CONNEXION IA</div><label>Fournisseur</label><select id="aiProvider"><option value="none">Non connecté</option><option value="custom">API personnalisée</option></select><label>Endpoint HTTPS</label><input id="aiEndpoint" placeholder="https://ton-serveur.example/api"><button id="saveSettings">Enregistrer</button><div class="muted">La clé API n’est jamais enregistrée dans le plugin.</div></section>
 <section class="card status-card"><div class="section-title">ÉTAT</div><div id="status" class="muted">Prêt.</div></section>
 <script src="index.js"></script></body></html>
