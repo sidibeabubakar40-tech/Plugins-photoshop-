@@ -1,6 +1,7 @@
 const { app, core, constants } = require("photoshop");
 const { storage } = require("uxp");
 const secureStorage = storage.secureStorage;
+const { formats } = storage;
 const HISTORY_KEY = "sidibe-history-v5";
 const CUSTOM_PRESETS_KEY = "sidibe-custom-presets-v5";
 const $ = id => document.getElementById(id);
@@ -52,6 +53,36 @@ function renderCustomPresets(){const box=$("customPresetList");if(!box)return;le
 $("saveCustomPreset")?.addEventListener("click",()=>{const name=$("customPresetName").value.trim();const opacity=Math.max(0,Math.min(100,Number($("customPresetOpacity").value)||100));if(!name)return status("Donne un nom au preset.");let a=JSON.parse(localStorage.getItem(CUSTOM_PRESETS_KEY)||"[]");a.push({id:"p"+Date.now(),name:name,opacity:opacity});localStorage.setItem(CUSTOM_PRESETS_KEY,JSON.stringify(a.slice(-20)));$("customPresetName").value="";renderCustomPresets();status("Preset enregistré.");});
 renderCustomPresets();renderHistory();
 
+function arrayBufferToBase64(buffer){
+  const bytes=new Uint8Array(buffer);
+  let binary="";
+  const chunk=0x8000;
+  for(let i=0;i<bytes.length;i+=chunk)binary+=String.fromCharCode(...bytes.subarray(i,Math.min(i+chunk,bytes.length)));
+  return btoa(binary);
+}
+async function uploadActiveDocument(endpoint){
+  const doc=app.activeDocument;
+  if(!doc)throw new Error("Aucun document ouvert.");
+  const folder=await storage.localFileSystem.getTemporaryFolder();
+  const file=await folder.createFile("sidibe-ai-input.png",{overwrite:true});
+  await doc.saveAs.png(file,{compression:6},true);
+  const data=await file.read({format:formats.binary});
+  const base64=arrayBufferToBase64(data);
+  if(base64.length>20*1024*1024)throw new Error("PNG temporaire trop volumineux pour l’upload.");
+  const r=await fetch(endpoint+"/v2/upload-image",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({data:base64,mime:"image/png"})});
+  const result=await r.json();
+  if(!r.ok)throw new Error(result.error||"Échec de l’upload.");
+  return result.imageUrl;
+}
+async function openCloudResult(url){
+  const r=await fetch(url);
+  if(!r.ok)throw new Error("Impossible de télécharger le résultat Adobe.");
+  const data=await r.arrayBuffer();
+  const folder=await storage.localFileSystem.getTemporaryFolder();
+  const file=await folder.createFile("sidibe-ai-result.png",{overwrite:true});
+  await file.write(data,{format:formats.binary});
+  await app.open(file);
+}
 async function pollCloudJob(endpoint,jobId){
   let last=null;
   for(let i=0;i<30;i++){
@@ -66,6 +97,19 @@ async function pollCloudJob(endpoint,jobId){
   }
   return last;
 }
+$("cloudUseActive")?.addEventListener("click",async()=>{
+  const endpoint=$("cloudEndpoint").value.trim().replace(/\/$/,"");
+  if(!endpoint)return $("cloudStatus").textContent="Configure l’URL du backend.";
+  try{
+    $("cloudUseActive").disabled=true;
+    $("cloudStatus").textContent="Export du document actif…";
+    const imageUrl=await uploadActiveDocument(endpoint);
+    $("cloudImageUrl").value=imageUrl;
+    $("cloudStatus").textContent="Image envoyée. URL temporaire prête pour Adobe.";
+    addHistory("Adobe AI · Upload document");
+  }catch(e){$("cloudStatus").textContent="Erreur upload : "+(e.message||"connexion impossible");}
+  finally{$("cloudUseActive").disabled=false;}
+});
 $("cloudRemoveBg")?.addEventListener("click",async()=>{
   const endpoint=$("cloudEndpoint").value.trim().replace(/\/$/,"");
   const imageUrl=$("cloudImageUrl").value.trim();
@@ -85,10 +129,11 @@ $("cloudRemoveBg")?.addEventListener("click",async()=>{
     if(state!=="succeeded")throw new Error("Le job Adobe a terminé avec le statut : "+(finalData?.status||"inconnu"));
     const outputs=finalData.outputs||finalData.output||[];
     const first=Array.isArray(outputs)?outputs[0]:outputs;
-    const resultUrl=first?.destination?.url||first?.url||first?.downloadUrl;
-    $("cloudStatus").textContent=resultUrl?"Terminé · résultat disponible.":"Terminé · Adobe a traité le fichier.";
+    const resultUrl=first?.destination?.url||first?.url||first?.downloadUrl||first?.image?.url;
+    $("cloudStatus").textContent=resultUrl?"Terminé · ouverture du résultat…":"Terminé · Adobe a traité le fichier.";
     if(resultUrl){
-      $("cloudStatus").innerHTML='Terminé · <a href="'+resultUrl+'" target="_blank">ouvrir le résultat</a>';
+      await openCloudResult(resultUrl);
+      $("cloudStatus").textContent="Terminé · résultat ouvert dans Photoshop.";
     }
     addHistory("Adobe AI · Remove Background");
   }catch(e){$("cloudStatus").textContent="Erreur : "+(e.message||"connexion impossible");}
