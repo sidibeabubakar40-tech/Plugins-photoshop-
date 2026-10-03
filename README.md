@@ -81,4 +81,4 @@ Le flux nécessite toujours une URL d'image accessible par Adobe (URL signée, s
 
 Le plugin peut maintenant exporter une copie PNG temporaire du document actif, l'envoyer au backend `/v2/upload-image`, renseigner automatiquement l'URL temporaire puis lancer Remove Background. Lorsque Adobe renvoie le résultat, le plugin télécharge le PNG et l'ouvre dans Photoshop.
 
-Le backend doit être déployé sur une URL publique HTTPS via `PUBLIC_BASE_URL` pour qu'Adobe puisse accéder à l'image temporaire. Adobe documente l'utilisation d'URL accessibles pour les entrées du Photoshop API v2. citeturn5search1turn5search2
+Le backend doit être déployé sur une URL publique HTTPS via `PUBLIC_BASE_URL` pour qu'Adobe puisse accéder à l'image temporaire. Adobe documente l'utilisation d'URL accessibles pour les entrées du Photoshop API v2.
