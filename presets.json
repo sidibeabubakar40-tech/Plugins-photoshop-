@@ -1,0 +1,25 @@
+{
+  "version": 2,
+  "presets": [
+    {
+      "id": "clean",
+      "name": "Clean",
+      "opacity": 100
+    },
+    {
+      "id": "soft",
+      "name": "Soft",
+      "opacity": 70
+    },
+    {
+      "id": "overlay",
+      "name": "Overlay",
+      "opacity": 85
+    },
+    {
+      "id": "fade",
+      "name": "Fade",
+      "opacity": 40
+    }
+  ]
+}
