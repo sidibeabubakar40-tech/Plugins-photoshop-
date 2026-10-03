@@ -52,17 +52,45 @@ function renderCustomPresets(){const box=$("customPresetList");if(!box)return;le
 $("saveCustomPreset")?.addEventListener("click",()=>{const name=$("customPresetName").value.trim();const opacity=Math.max(0,Math.min(100,Number($("customPresetOpacity").value)||100));if(!name)return status("Donne un nom au preset.");let a=JSON.parse(localStorage.getItem(CUSTOM_PRESETS_KEY)||"[]");a.push({id:"p"+Date.now(),name:name,opacity:opacity});localStorage.setItem(CUSTOM_PRESETS_KEY,JSON.stringify(a.slice(-20)));$("customPresetName").value="";renderCustomPresets();status("Preset enregistré.");});
 renderCustomPresets();renderHistory();
 
+async function pollCloudJob(endpoint,jobId){
+  let last=null;
+  for(let i=0;i<30;i++){
+    await new Promise(r=>setTimeout(r,3000));
+    const r=await fetch(endpoint+"/v2/status/"+encodeURIComponent(jobId));
+    const data=await r.json();
+    if(!r.ok)throw new Error(data.error||"Erreur de statut");
+    last=data;
+    const state=String(data.status||"").toLowerCase();
+    $("cloudStatus").textContent="Adobe AI · "+(data.status||"traitement")+"…";
+    if(state==="succeeded"||state==="failed"||state==="error")return data;
+  }
+  return last;
+}
 $("cloudRemoveBg")?.addEventListener("click",async()=>{
   const endpoint=$("cloudEndpoint").value.trim().replace(/\/$/,"");
   const imageUrl=$("cloudImageUrl").value.trim();
   if(!endpoint)return $("cloudStatus").textContent="Configure l’URL du backend.";
   if(!imageUrl)return $("cloudStatus").textContent="Ajoute une URL d’image lisible par Adobe.";
   try{
-    $("cloudStatus").textContent="Traitement Adobe en cours…";
+    $("cloudRemoveBg").disabled=true;
+    $("cloudStatus").textContent="Création du job Adobe…";
     const r=await fetch(endpoint+"/v2/remove-background",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({imageUrl:imageUrl,mode:"cutout",trim:true})});
     const data=await r.json();
     if(!r.ok)throw new Error(data.error||"Erreur backend");
-    $("cloudStatus").textContent="Job Adobe créé. Le backend a reçu la demande.";
+    const jobId=data.jobId;
+    if(!jobId)throw new Error("Adobe n’a pas retourné de jobId.");
+    $("cloudStatus").textContent="Job Adobe "+jobId+" créé. Suivi en cours…";
+    const finalData=await pollCloudJob(endpoint,jobId);
+    const state=String(finalData?.status||"").toLowerCase();
+    if(state!=="succeeded")throw new Error("Le job Adobe a terminé avec le statut : "+(finalData?.status||"inconnu"));
+    const outputs=finalData.outputs||finalData.output||[];
+    const first=Array.isArray(outputs)?outputs[0]:outputs;
+    const resultUrl=first?.destination?.url||first?.url||first?.downloadUrl;
+    $("cloudStatus").textContent=resultUrl?"Terminé · résultat disponible.":"Terminé · Adobe a traité le fichier.";
+    if(resultUrl){
+      $("cloudStatus").innerHTML='Terminé · <a href="'+resultUrl+'" target="_blank">ouvrir le résultat</a>';
+    }
     addHistory("Adobe AI · Remove Background");
   }catch(e){$("cloudStatus").textContent="Erreur : "+(e.message||"connexion impossible");}
+  finally{$("cloudRemoveBg").disabled=false;}
 });
